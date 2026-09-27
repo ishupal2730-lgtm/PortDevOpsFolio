@@ -1,25 +1,19 @@
-name: CI
+name: CI/CD
 
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Validate HTML files exist
-        run: |
-          echo "Checking repo structure..."
-          ls -la
-
-      - name: Lint HTML (optional)
-        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          root: .
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
